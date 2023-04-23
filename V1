@@ -1,0 +1,54 @@
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Slideshow extends JFrame implements ActionListener {
+    private JLabel imageLabel;
+    private ImageIcon[] images;
+    private int currentIndex;
+
+    public Slideshow() {
+        super("Slideshow");
+
+        images = new ImageIcon[3];
+        images[0] = new ImageIcon("C:/Users/msi/Pictures/фотожабы/слон1.jpg");
+        images[1] = new ImageIcon("C:/Users/msi/Pictures/фотожабы/слон2.jpg");
+        images[2] = new ImageIcon("C:/Users/msi/Pictures/фотожабы/слон3.jpg");
+
+        imageLabel = new JLabel(images[0]);
+        add(imageLabel);
+
+        setSize(500, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                currentIndex++;
+                if (currentIndex == images.length) {
+                    currentIndex = 0;
+                }
+
+                imageLabel.setIcon(images[currentIndex]);
+            }
+        }).start();
+    }
+
+    public static void main(String[] args) {
+        new Slideshow();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // handle button clicks if needed
+    }
+}
